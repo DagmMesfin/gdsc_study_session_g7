@@ -1,34 +1,39 @@
 void main(){
-  List <int> numo = [1,2,3,4];
-  print("The maximum number is: ${maxNum(numo)}");
-  print("The minimum number is: ${minNum(numo)}");
-  print("The overall sum is: ${sumNum(numo)}");
-  print("The Average is: ${avgNum(numo)}");
+  List <int> numo = [1,8,3,3,4,45,5,69,10,39,91,10];
+  print("The maximum number is: ${findMaximum(numo)}");
+  print("The minimum number is: ${findMinimum(numo)}");
+  print("The overall sum is: ${calculateSum(numo)}");
+  print("The Average is: ${calculateAverage(numo)}");
 }
 
-int maxNum(List <int> n){ //calculates the maximum number
-  int maxi = n[0];
-  for(int i in n)
-    if (i>maxi)
-      maxi = i;
+int findMaximum(List <int> numbers){ //calculates the maximum number
+  int maxi = numbers[0];
+  for(int number in numbers){
+    if (number>maxi){
+      maxi = number;
+    }
+  }
   return maxi;
 }
 
-int minNum(List <int> n){ //calculates the minimum number
-  int mini = n[0];
-  for(int i in n)
-    if(i<mini)
-      mini = i;
+int findMinimum(List <int> numbers){ //calculates the minimum number
+  int mini = numbers[0];
+  for(int number in numbers){
+    if(number<mini){
+      mini = number;
+    }
+  }
   return mini;
 }
 
-int sumNum(List <int> n){ // calculates the overall sum
+int calculateSum(List <int> numbers){ // calculates the overall sum
   int sum = 0;
-  for(int i in n)
-    sum+=i;
+  for(int number in numbers){
+    sum+=number;
+  }
   return sum;
 }
 
-double avgNum(List <int> n){ //calculates the average of the list
-  return sumNum(n) / n.length;
+double calculateAverage(List <int> numbers){ //calculates the average of the list
+  return calculateSum(numbers) / numbers.length;
 }
