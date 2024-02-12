@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'widgets/bullet_category.dart';
+import 'widgets/book_adv.dart';
+import 'overview.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -7,94 +10,6 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-}
-
-Widget bulletCategory(IconData icon, String title) {
-  return Card(
-    shadowColor: Colors.black38,
-    child: Container(
-        decoration: BoxDecoration(
-            color: const Color.fromARGB(172, 173, 173, 173),
-            borderRadius: BorderRadius.circular(16.0)),
-        width: 120,
-        height: 50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Icon(icon),
-            Text(title),
-          ],
-        )),
-  );
-}
-
-Widget bookAdv(String imagepath, String name, String rating) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      Stack(
-        alignment: Alignment.topRight,
-        children: [
-          Container(
-            width: 150,
-            height: 225,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
-              image: DecorationImage(
-                image: AssetImage(imagepath),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 15, 15, 0),
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                color: Colors.orange, borderRadius: BorderRadius.circular(10)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.star_rounded,
-                  size: 20,
-                  color: Colors.white,
-                ),
-                Text(
-                  rating,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.white,
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-      Text(name)
-    ],
-  );
-}
-
-Widget bookAdvWithoutRating(String imagepath, String name) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      Container(
-        width: 150,
-        height: 225,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.0),
-          image: DecorationImage(
-            image: AssetImage(imagepath),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-      Text(name)
-    ],
-  );
 }
 
 int currentIndex = 0;
@@ -130,15 +45,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      width: MediaQuery.of(context).size.width * 0.75,
-                      child: const TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Looking for...',
-                        ),
-                      ),
-                    ),
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Looking for...',
+                                  ),
+                                ),
+                              ),
+                              Icon(Icons.search)
+                            ])),
                     Container(
                       width: 57,
                       height: 57,
@@ -243,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 bulletCategory(Icons.science, "Science"),
                 bulletCategory(Icons.precision_manufacturing, "Technology"),
                 bulletCategory(Icons.school, "Educational"),
-                bulletCategory(Icons.flare, "Fictional"),
+                bulletCategory(Icons.abc, "Fictional"),
               ],
             ),
             const Padding(
@@ -264,12 +185,37 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(
                       width: 16,
                     ),
-                    bookAdv('assets/images/papillon.png', "Le Papillon", "5.0"),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    PageDetail(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              var tween = Tween(
+                                      begin: Offset(1.0, 0.0), end: Offset.zero)
+                                  .chain(CurveTween(
+                                      curve: Curves.fastEaseInToSlowEaseOut));
+
+                              return SlideTransition(
+                                position: animation.drive(tween),
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: bookAdv(
+                          'assets/images/papillon.png', "Le Papillon", "5.0"),
+                    ),
                     const SizedBox(
                       width: 10,
                     ),
                     bookAdv(
-                        'assets/images/yebedel.jpeg', "Yebedel Menged", "4.0"),
+                        'assets/images/yebedel.png', "Yebedel Menged", "4.0"),
                     const SizedBox(
                       width: 10,
                     ),
@@ -317,7 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 10,
                     ),
                     bookAdvWithoutRating(
-                        'assets/images/paplion.jpeg', "Le Paplion"),
+                        'assets/images/papillon.png', "Le Papillon"),
                     const SizedBox(
                       width: 16,
                     ),
@@ -355,13 +301,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(
                       width: 10,
                     ),
-                    bookAdv('assets/images/paplion.jpeg', "Le Paplion", "3.5"),
+                    bookAdv('assets/images/papillon.png', "Le Papillon", "3.5"),
                     const SizedBox(
                       width: 16,
                     ),
                   ],
                 )),
-            SizedBox(
+            const SizedBox(
               height: 16,
             )
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gdsc_bookstore/onboard.dart';
 import 'my_home_page.dart';
 
 void main() {
@@ -16,7 +17,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Onboard(),
+      routes: {
+        '/second': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+      },
     );
   }
 }
