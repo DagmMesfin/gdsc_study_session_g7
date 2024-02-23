@@ -1,26 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ui_task_1/widgets/task_creator.dart';
 import 'widgets/task_list.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-    );
-  }
-}
 
 class MySecondPage extends StatefulWidget {
   const MySecondPage({super.key, required this.title});
@@ -34,6 +14,8 @@ class MySecondPage extends StatefulWidget {
 class _MySecondPageState extends State<MySecondPage> {
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -58,7 +40,8 @@ class _MySecondPageState extends State<MySecondPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Image.asset('assets/images/2.png'),
+            Image.asset('assets/images/2.png',
+                height: height * 0.3, width: width * 0.8),
             Container(
               padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
               child: Column(
@@ -73,22 +56,15 @@ class _MySecondPageState extends State<MySecondPage> {
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      taskListItem("U", "April 29, 2021", "UI/UX Design"),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      taskListItem("U", "April 29, 2021", "UI/UX Design"),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      taskListItem("U", "April 29, 2021", "UI/UX Design"),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      taskListItem("U", "April 29, 2021", "UI/UX Design"),
-                    ],
+                  SizedBox(
+                    height: height * 0.0067,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(1.0),
+                    child: SizedBox(
+                      height: height * 0.40,
+                      child: const TaskWidget(),
+                    ),
                   ),
                 ],
               ),

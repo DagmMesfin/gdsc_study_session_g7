@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
-Widget taskListItem(String initial, String date, String name) {
+Map<String, Color> taskStatus = {
+  "red": Colors.red,
+  "green": Colors.green,
+  "yellow": Colors.yellow,
+};
+
+Widget taskListItem(String initial, String date, String name, String color) {
   return Card(
     clipBehavior: Clip.hardEdge,
     child: InkWell(
+      onTap: () {},
       splashColor: Colors.white54,
       child: SizedBox(
           width: 500,
@@ -49,7 +56,7 @@ Widget taskListItem(String initial, String date, String name) {
                     child: Container(
                   width: 5,
                   height: 35,
-                  color: Colors.deepOrange,
+                  color: taskStatus[color],
                 )),
               )
             ],
@@ -57,3 +64,11 @@ Widget taskListItem(String initial, String date, String name) {
     ),
   );
 }
+
+Map<String, List<String>> allTasks = {
+  "UX/Ui": ["Description", "8/3/10", 'red'],
+  "Reading": ["Description", "8/3/10", 'red'],
+  "Study": ["Description", "8/3/10", 'green'],
+  "Dart": ["Description", "8/3/10", 'green'],
+  "Dart2": ["Description", "8/3/10", 'green'],
+};
