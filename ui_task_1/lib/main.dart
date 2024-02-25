@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_task_1/second_page.dart';
 import 'package:ui_task_1/third_page.dart';
-import 'package:ui_task_1/fourth_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +23,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/second': (context) => MySecondPage(title: "ToDo List"),
         '/third': (context) => MyThirdPage(title: "Create New Task"),
-        '/fourth': (context) => MyFourthPage(title: "Task Details"),
       },
     );
   }

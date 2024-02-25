@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ui_task_1/widgets/task_creator.dart';
-import 'widgets/task_list.dart';
 
 class MySecondPage extends StatefulWidget {
   const MySecondPage({super.key, required this.title});
