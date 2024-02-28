@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ui_task_1/widgets/task_creator.dart';
-import 'package:ui_task_1/widgets/task_list.dart';
+import 'package:provider/provider.dart';
+import 'package:ui_task_1/widgets/model.dart';
+import 'package:ui_task_1/widgets/provider.dart';
 
 class MyThirdPage extends StatefulWidget {
   const MyThirdPage({super.key, required this.title});
@@ -15,11 +16,6 @@ class _MyThirdPageState extends State<MyThirdPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _taskName = TextEditingController();
   final _taskDescription = TextEditingController();
-
-  void create_task(
-      String name, String description, String duedate, String color) {
-    allTasks[name] = [duedate, description, color];
-  }
 
   DateTime selected = DateTime.now();
   Future<void> _selected(BuildContext context) async {
@@ -192,13 +188,12 @@ class _MyThirdPageState extends State<MyThirdPage> {
                       TextButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            create_task(
-                              _taskName.text,
-                              _taskDescription.text,
-                              '${selected.day}/${selected.month}/${selected.year}',
-                              'red',
-                            );
-                            print(allTasks);
+                            Provider.of<TodoListProvider>(context,
+                                    listen: false)
+                                .addTodoModel(TodoList(
+                                    _taskName.text.trim(),
+                                    '${selected.day}/${selected.month}/${selected.year}',
+                                    _taskDescription.text.trim()));
                             Navigator.of(context)
                                 .pushReplacementNamed('/second');
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

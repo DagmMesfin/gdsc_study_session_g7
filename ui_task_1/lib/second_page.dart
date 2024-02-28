@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ui_task_1/widgets/provider.dart';
 import 'package:ui_task_1/widgets/task_creator.dart';
 
 class MySecondPage extends StatefulWidget {
@@ -13,6 +15,7 @@ class MySecondPage extends StatefulWidget {
 class _MySecondPageState extends State<MySecondPage> {
   @override
   Widget build(BuildContext context) {
+    final todoModels = Provider.of<TodoListProvider>(context).todoModels;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -62,7 +65,13 @@ class _MySecondPageState extends State<MySecondPage> {
                     padding: const EdgeInsets.all(1.0),
                     child: SizedBox(
                       height: height * 0.40,
-                      child: const TaskWidget(),
+                      child: ListView.builder(
+                          itemCount: todoModels.length,
+                          itemBuilder: (_, index) {
+                            final current_task = todoModels[index];
+                            return TaskElement(current_task.taskname,
+                                current_task.description, current_task.date);
+                          }),
                     ),
                   ),
                 ],

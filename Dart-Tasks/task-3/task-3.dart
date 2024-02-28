@@ -25,6 +25,7 @@ class Calculator {
     } else {
       return num1 / num2;
     }
+    return null;
   }
 }
 
