@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ui_task_1/widgets/task_list.dart';
+import 'package:provider/provider.dart';
+import 'package:ui_task_1/widgets/model.dart';
+import 'package:ui_task_1/widgets/provider.dart';
 
 class MyFourthPage extends StatefulWidget {
-  final String name, description, duedate, color;
-  const MyFourthPage(this.name, this.description, this.duedate, this.color,
-      {super.key});
+  final String name, description, duedate;
+  const MyFourthPage(this.name, this.description, this.duedate, {super.key});
 
   @override
   State<MyFourthPage> createState() => _MyFourthPageState();
@@ -14,24 +15,6 @@ class _MyFourthPageState extends State<MyFourthPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _taskName = TextEditingController();
   final _taskDescription = TextEditingController();
-  final String progress = '0';
-  void update_task(
-      String Name, String Description, String Duedate, String Color) {
-    allTasks.remove(widget.name);
-    allTasks[Name] = [Duedate, Description, Color];
-  }
-
-  void delete_task() {
-    allTasks.remove(widget.name);
-  }
-
-  DateTime _parseDateString(String dateString) {
-    List<String> dateParts = dateString.split('/');
-    int day = int.parse(dateParts[0]);
-    int month = int.parse(dateParts[1]);
-    int year = int.parse(dateParts[2]);
-    return DateTime(year, month, day);
-  }
 
   DateTime selected = DateTime.now();
   Future<void> _selected(BuildContext context) async {
@@ -40,7 +23,6 @@ class _MyFourthPageState extends State<MyFourthPage> {
             firstDate: DateTime.now(),
             lastDate: DateTime(2040))
         .then((value) {
-      print(value);
       setState(() {
         selected = value!;
       });
@@ -49,6 +31,8 @@ class _MyFourthPageState extends State<MyFourthPage> {
 
   @override
   Widget build(BuildContext context) {
+    TodoList oldList =
+        TodoList(widget.name, widget.duedate, widget.description);
     _taskName.text = widget.name;
     _taskDescription.text = widget.description;
     return Scaffold(
@@ -229,12 +213,15 @@ class _MyFourthPageState extends State<MyFourthPage> {
                                   TextButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        update_task(
-                                          _taskName.text,
-                                          _taskDescription.text,
-                                          '${selected.day}/${selected.month}/${selected.year}',
-                                          'red',
-                                        );
+                                        Provider.of<TodoListProvider>(context,
+                                                listen: false)
+                                            .updateToDoModel(
+                                                oldList,
+                                                TodoList(
+                                                    _taskName.text.trim(),
+                                                    '${selected.day}/${selected.month}/${selected.year}',
+                                                    _taskDescription.text
+                                                        .trim()));
                                         Navigator.of(context)
                                             .pushReplacementNamed('/second');
                                         ScaffoldMessenger.of(context)
@@ -284,7 +271,9 @@ class _MyFourthPageState extends State<MyFourthPage> {
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      delete_task();
+                                      Provider.of<TodoListProvider>(context,
+                                              listen: false)
+                                          .removeToDoModel(oldList);
                                       Navigator.of(context)
                                           .pushReplacementNamed('/second');
                                       ScaffoldMessenger.of(context)

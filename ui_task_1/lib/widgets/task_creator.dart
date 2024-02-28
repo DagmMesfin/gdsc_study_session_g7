@@ -3,9 +3,9 @@ import 'package:ui_task_1/fourth_page.dart';
 import 'package:ui_task_1/widgets/task_list.dart';
 
 class TaskElement extends StatefulWidget {
-  final String name, detail, date, color;
+  final String name, detail, date;
 
-  const TaskElement(this.name, this.detail, this.date, this.color, {super.key});
+  const TaskElement(this.name, this.detail, this.date, {super.key});
 
   @override
   State<TaskElement> createState() => _TaskElementState();
@@ -19,8 +19,7 @@ class _TaskElementState extends State<TaskElement> {
       child: InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return MyFourthPage(
-                widget.name, widget.detail, widget.date, widget.color);
+            return MyFourthPage(widget.name, widget.detail, widget.date);
           }));
         },
         splashColor: Colors.white54,
@@ -68,40 +67,12 @@ class _TaskElementState extends State<TaskElement> {
                       child: Container(
                     width: 5,
                     height: 35,
-                    color: taskStatus[widget.color],
+                    color: taskStatus["red"],
                   )),
                 )
               ],
             )),
       ),
-    );
-  }
-}
-
-class TaskWidget extends StatefulWidget {
-  const TaskWidget({super.key});
-
-  @override
-  State<TaskWidget> createState() => _TaskWidgetState();
-}
-
-class _TaskWidgetState extends State<TaskWidget> {
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> eachTask = [];
-    var height = MediaQuery.of(context).size.height;
-    allTasks.forEach((key, value) {
-      Widget one = TaskElement(key, value[1], value[0], value[2]);
-      eachTask.add(one);
-      eachTask.add(
-        SizedBox(
-          height: height * 0.02,
-        ),
-      );
-    });
-    return ListView(
-      padding: const EdgeInsets.all(8),
-      children: eachTask,
     );
   }
 }
